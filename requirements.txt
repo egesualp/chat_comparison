@@ -1,6 +1,4 @@
-fastapi
-uvicorn[standard]
 openai
 sqlalchemy
 aiosqlite
-jinja2
+streamlit

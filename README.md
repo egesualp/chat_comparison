@@ -1,6 +1,6 @@
 # Chat Comparison
 
-This simple web app lets you test a prompt against multiple OpenAI chat models and compare the responses side‑by‑side.
+This web app lets you test a prompt against multiple OpenAI chat models and compare their responses side by side.
 
 ## Setup
 
@@ -8,14 +8,10 @@ This simple web app lets you test a prompt against multiple OpenAI chat models a
    ```bash
    pip install -r requirements.txt
    ```
-2. Set your OpenAI API key
+2. Run the app
    ```bash
-   export OPENAI_API_KEY=YOUR_KEY
+   streamlit run app/streamlit_app.py
    ```
-3. Start the server
-   ```bash
-   python -m app
-   ```
-4. Open `frontend/index.html` in your browser.
+3. Enter your OpenAI API key in the UI when prompted.
 
 Runs are stored in the local SQLite database `runs.db`.
