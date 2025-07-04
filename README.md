@@ -4,7 +4,7 @@ This web app lets you test a prompt against multiple OpenAI chat models and comp
 
 ## Setup
 
-1. Install dependencies
+1. Install dependencies (includes `greenlet` required by SQLAlchemy)
    ```bash
    pip install -r requirements.txt
    ```
