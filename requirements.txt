@@ -1,4 +1,5 @@
 openai
 sqlalchemy
+greenlet
 aiosqlite
 streamlit
