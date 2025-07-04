@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Chat Comparison</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    textarea { width: 100%; }
+    .results { display: flex; gap: 10px; margin-top: 20px; }
+    .result { border: 1px solid #ccc; padding: 10px; width: 100%; overflow-y: auto; }
+  </style>
+</head>
+<body>
+  <h1>Chat Comparison</h1>
+  <label>System Prompt:</label><br />
+  <textarea id="system" rows="3"></textarea><br />
+  <label>User Prompt:</label><br />
+  <textarea id="user" rows="3"></textarea><br />
+  <label>Models:</label><br />
+  <label><input type="checkbox" name="model" value="gpt-3.5-turbo" checked> gpt-3.5-turbo</label>
+  <label><input type="checkbox" name="model" value="gpt-4"> gpt-4</label>
+  <label><input type="checkbox" name="model" value="gpt-4-turbo"> gpt-4-turbo</label>
+  <div>
+    <label>Temperature: <input type="number" id="temperature" value="1" step="0.1"></label>
+    <label>Top P: <input type="number" id="top_p" value="1" step="0.1"></label>
+    <label>Max Tokens: <input type="number" id="max_tokens" value="256"></label>
+    <label>Frequency Penalty: <input type="number" id="freq" value="0" step="0.1"></label>
+    <label>Presence Penalty: <input type="number" id="pres" value="0" step="0.1"></label>
+  </div>
+  <button id="run">Run</button>
+  <div id="cost"></div>
+  <div class="results" id="results"></div>
+
+  <script>
+    async function run() {
+      const models = Array.from(document.querySelectorAll('input[name="model"]:checked')).map(el => el.value);
+      const body = {
+        system_prompt: document.getElementById('system').value,
+        user_prompt: document.getElementById('user').value,
+        models,
+        temperature: parseFloat(document.getElementById('temperature').value),
+        top_p: parseFloat(document.getElementById('top_p').value),
+        max_tokens: parseInt(document.getElementById('max_tokens').value),
+        frequency_penalty: parseFloat(document.getElementById('freq').value),
+        presence_penalty: parseFloat(document.getElementById('pres').value),
+      };
+      const res = await fetch('/api/run', {method: 'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)});
+      const data = await res.json();
+      const container = document.getElementById('results');
+      container.innerHTML = '';
+      for(const [model, text] of Object.entries(data.results)) {
+        const div = document.createElement('div');
+        div.className = 'result';
+        div.innerHTML = `<h3>${model}</h3><pre>${text}</pre>`;
+        container.appendChild(div);
+      }
+      document.getElementById('cost').innerText = `Prompt tokens: ${data.prompt_tokens}  Completion tokens: ${data.completion_tokens}  Estimated cost: $${data.cost.toFixed(5)}`;
+    }
+    document.getElementById('run').onclick = run;
+  </script>
+</body>
+</html>
