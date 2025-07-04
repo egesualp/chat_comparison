@@ -4,7 +4,8 @@ This web app lets you test a prompt against multiple OpenAI chat models and comp
 
 ## Setup
 
-1. Install dependencies
+1. Install dependencies (includes `greenlet`; required by SQLAlchemy to avoid
+   `MissingGreenlet` errors)
    ```bash
    pip install -r requirements.txt
    ```
@@ -13,5 +14,9 @@ This web app lets you test a prompt against multiple OpenAI chat models and comp
    streamlit run app/streamlit_app.py
    ```
 3. Enter your OpenAI API key in the UI when prompted.
+
+If the application fails with a `MissingGreenlet` error, verify that the
+`greenlet` package installed correctly and reinstall the dependencies if
+necessary.
 
 Runs are stored in the local SQLite database `runs.db`.
